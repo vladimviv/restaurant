@@ -13,6 +13,7 @@
         <spring.version>4.3.7.RELEASE</spring.version>
         <spring.security.version>4.2.0.RELEASE</spring.security.version>
         <hibernate.version>5.2.10.Final</hibernate.version>
+        <jackson.version>2.7.8</jackson.version>
     </properties>
 
     <dependencies>
@@ -84,6 +85,17 @@
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>9.4.1212.jre7</version>
+        </dependency>
+        <!-- Json -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
         </dependency>
     </dependencies>
 

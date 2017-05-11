@@ -11,10 +11,10 @@
         <td>ID</td>
         <td>NAME</td>
     </tr>
-    <c:forEach items="${list}" var="document" varStatus="status">
+    <c:forEach items="${list}" var="message" varStatus="status">
         <tr>
-            <td>${document.id}</td>
-            <td>${document.name}</td>
+            <td>${message.id}</td>
+            <td>${message.name}</td>
         </tr>
     </c:forEach>
 </table>
