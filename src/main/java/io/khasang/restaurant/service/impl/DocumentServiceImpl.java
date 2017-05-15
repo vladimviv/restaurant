@@ -31,4 +31,14 @@ public class DocumentServiceImpl implements DocumentService {
     public Document getDocumentById(long id){
         return documentDao.getById(id);
     }
+
+    @Override
+    public Document updateDocument(Document document) {
+        return documentDao.update(document);
+    }
+
+    @Override
+    public List<Document> getDocumentListByName(String name) {
+        return documentDao.findByName(name);
+    }
 }

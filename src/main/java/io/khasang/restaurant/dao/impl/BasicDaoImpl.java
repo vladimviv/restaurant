@@ -40,6 +40,12 @@ public abstract class BasicDaoImpl<T> implements BasicDao<T> {
     }
 
     @Override
+    public T update(T entity) {
+        getCurrentSession().update(entity);
+        return entity;
+    }
+
+    @Override
     public List<T> getList() {
         CriteriaBuilder builder = sessionFactory.getCriteriaBuilder();
         CriteriaQuery<T> criteriaQuery = builder.createQuery(entityClass);

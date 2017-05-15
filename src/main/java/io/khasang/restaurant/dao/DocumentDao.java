@@ -2,6 +2,8 @@ package io.khasang.restaurant.dao;
 
 import io.khasang.restaurant.entity.Document;
 
+import java.util.List;
+
 public interface DocumentDao extends BasicDao<Document> {
 
     /**
@@ -11,4 +13,12 @@ public interface DocumentDao extends BasicDao<Document> {
      * @return document
      */
     Document addDocument(Document document);
+
+    /**
+     * Receive document from database by name
+     *
+     * @param name - document name
+     * @return list of documents
+     */
+    List<Document> findByName(String name);
 }

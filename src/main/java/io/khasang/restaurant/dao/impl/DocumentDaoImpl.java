@@ -6,6 +6,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+
 public class DocumentDaoImpl extends BasicDaoImpl<Document> implements DocumentDao {
     @Autowired
     SessionFactory sessionFactory;
@@ -24,4 +26,13 @@ public class DocumentDaoImpl extends BasicDaoImpl<Document> implements DocumentD
        sessionFactory.getCurrentSession().save(document);
        return document;
     }
+
+    @Override
+    public List<Document> findByName(String name) {
+        return (List<Document>) sessionFactory.getCurrentSession()
+                .createQuery("from Document as d where d.name = ?")
+                .setParameter(0, name)
+                .list();
+    }
+
 }

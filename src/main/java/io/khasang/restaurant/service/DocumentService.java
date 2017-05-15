@@ -37,4 +37,19 @@ public interface DocumentService {
      */
     Document getDocumentById(long id);
 
+    /**
+     * Update document
+     *
+     * @param document - document from request for update
+     * @return updated document
+     */
+    Document updateDocument(Document document);
+
+    /**
+     * Receive document from database by name
+     *
+     * @param name - document name
+     * @return list of documents
+     */
+    List<Document> getDocumentListByName(String name);
 }
