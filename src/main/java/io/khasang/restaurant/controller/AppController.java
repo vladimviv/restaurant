@@ -21,9 +21,8 @@ public class AppController {
     private Cat cat;
 
     @RequestMapping("/")
-    public String hello(Model model) {
-        model.addAttribute("hello", message.getName());
-        return "index";
+    public String hello() {
+        return "document";
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
@@ -58,4 +57,5 @@ public class AppController {
         modelAndView.addObject("crypt", new BCryptPasswordEncoder().encode(password));
         return modelAndView;
     }
+
 }
