@@ -8,7 +8,7 @@
 </head>
 <body>
 <script type="text/javascript">
-    var service = '/order';
+    var service = '/document';
     var RestGet = function (id) {
         $.ajax({
             type: 'GET',
