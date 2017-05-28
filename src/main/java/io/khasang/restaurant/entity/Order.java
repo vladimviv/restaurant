@@ -11,13 +11,13 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private  long oder_id;
-    //    private Date date;
+    private Date date;
 //    private String user;
 //    private int tableNumber;
     private String comment;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Dish> dish = new ArrayList<>();
+//    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<Dish> dish = new ArrayList<>();
 
     public Order() {
     }
@@ -30,19 +30,19 @@ public class Order {
         this.oder_id = oder_id;
     }
 
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
     public String getComment() {
         return comment;
     }
 
     public void setComment(String comment) {
         this.comment = comment;
-    }
-
-    public List<Dish> getDish() {
-        return dish;
-    }
-
-    public void setDish(List<Dish> dish) {
-        this.dish = dish;
     }
 }
