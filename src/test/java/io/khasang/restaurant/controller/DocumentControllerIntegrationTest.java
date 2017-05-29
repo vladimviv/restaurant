@@ -1,12 +1,16 @@
 package io.khasang.restaurant.controller;
 
 import io.khasang.restaurant.entity.Document;
+import io.khasang.restaurant.entity.DocumentItem;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -125,6 +129,22 @@ public class DocumentControllerIntegrationTest {
         Document document = new Document();
         document.setName("Fireball");
         document.setDescription("Medium size");
+
+        DocumentItem item = new DocumentItem();
+        item.setName("2 mana");
+        item.setPrice(new BigDecimal(BigInteger.valueOf(10)));
+
+
+        DocumentItem item2 = new DocumentItem();
+        item2.setName("3 mana");
+        item2.setPrice(new BigDecimal(BigInteger.valueOf(6)));
+
+        List<DocumentItem> documentItemList = new ArrayList<>();
+        documentItemList.add(item);
+        documentItemList.add(item2);
+
+        document.setDocumentItems(documentItemList);
+
         return document;
     }
 
