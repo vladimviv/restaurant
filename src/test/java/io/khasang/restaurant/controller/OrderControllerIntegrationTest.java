@@ -1,6 +1,7 @@
 package io.khasang.restaurant.controller;
 
 import io.khasang.restaurant.entity.Order;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
@@ -11,6 +12,7 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
+@Ignore
 public class OrderControllerIntegrationTest {
     private final String ROOT = "http://localhost:8080/order";
     private final String ADD = "/add";
@@ -39,6 +41,43 @@ public class OrderControllerIntegrationTest {
     }
 
 
+    @Test
+    public void getAllOrders(){
+        RestTemplate restTemplate = new RestTemplate();
+        createOrder();
+        createOrder();
+
+        ResponseEntity<List<Order>> responseEntity = restTemplate.exchange(
+                ROOT + ALL,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<List<Order>>() {
+                }
+        );
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertNotNull(responseEntity.getBody());
+    }
+
+    @Test
+    public void updateOrders(){
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+        RestTemplate restTemplate = new RestTemplate();
+        Order order =  createOrder();
+
+        order.setComment("Comment 2");
+        HttpEntity<Order> httpEntity = new HttpEntity<>(order, httpHeaders);
+
+        Order resultUpdatedOrder = restTemplate.exchange(
+                ROOT + UPDATE,
+                HttpMethod.POST,
+                httpEntity,
+                Order.class).getBody();
+        assertNotNull(resultUpdatedOrder);
+        assertNotNull(resultUpdatedOrder.getOder_id());
+        assertEquals(resultUpdatedOrder.getComment(), resultUpdatedOrder.getComment());
+    }
+
     private Order createOrder() {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
@@ -63,5 +102,30 @@ public class OrderControllerIntegrationTest {
         return order;
     }
 
+    @Test
+    public void deleteOrder(){
+        Order order =  createOrder();
+
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> responseEntity = restTemplate.exchange(
+                ROOT + DELETE + "{id}",
+                HttpMethod.DELETE,
+                null,
+                String.class,
+                order.getOder_id()
+        );
+
+        assertEquals("OK", responseEntity.getStatusCode().getReasonPhrase());
+
+        ResponseEntity<Order> checkOrderExist = restTemplate.exchange(
+                ROOT + GET_ID + "{id}",
+                HttpMethod.GET,
+                null,
+                Order.class,
+                order.getOder_id()
+        );
+
+        assertNull(checkOrderExist.getBody());
+    }
 
 }
