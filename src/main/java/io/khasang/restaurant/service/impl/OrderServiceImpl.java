@@ -39,4 +39,8 @@ public class OrderServiceImpl implements OrderService {
         return orderDao.update(order);
     }
 
+    @Override
+    public Order getOrderByTable(int tableNumber) {
+        return orderDao.getByTable(tableNumber);
+    }
 }
