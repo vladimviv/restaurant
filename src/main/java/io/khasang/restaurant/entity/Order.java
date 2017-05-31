@@ -11,15 +11,27 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private  long oder_id;
-    private Date date;
-//    private String user;
-//    private int tableNumber;
+
+//    @Column(name = "`timestamp`")
+//    @Temporal(TemporalType.DATE)
+    private Date timestamp;
+
+    private String customer;
+    private int tableNumber;
     private String comment;
 
-//    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<Dish> dish = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private List<Dish> dish = new ArrayList<>();
 
     public Order() {
+    }
+
+    public List<Dish> getDish() {
+        return dish;
+    }
+
+    public void setDish(List<Dish> dish) {
+        this.dish = dish;
     }
 
     public long getOder_id() {
@@ -30,12 +42,28 @@ public class Order {
         this.oder_id = oder_id;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getTimestamp() {
+        return timestamp;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public String getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(String customer) {
+        this.customer = customer;
+    }
+
+    public int getTableNumber() {
+        return tableNumber;
+    }
+
+    public void setTableNumber(int tableNumber) {
+        this.tableNumber = tableNumber;
     }
 
     public String getComment() {

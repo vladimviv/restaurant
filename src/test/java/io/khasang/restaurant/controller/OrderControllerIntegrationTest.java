@@ -1,5 +1,6 @@
 package io.khasang.restaurant.controller;
 
+import io.khasang.restaurant.entity.Dish;
 import io.khasang.restaurant.entity.Order;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -7,22 +8,22 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.*;
 
-@Ignore
 public class OrderControllerIntegrationTest {
     private final String ROOT = "http://localhost:8080/order";
     private final String ADD = "/add";
     private final String UPDATE = "/update";
-    private final String GET_ID = "/get/id/";
+    private final String GET_ID = "/get/";
     private final String DELETE = "/delete/";
     private final String ALL = "/all";
 
-
-    @Test
+@Ignore
+@Test
     public void addOrder() {
         Order order = createOrder();
         RestTemplate restTemplate = new RestTemplate();
@@ -33,6 +34,7 @@ public class OrderControllerIntegrationTest {
                 Order.class,
                 order.getOder_id()
         );
+
         assertEquals("OK", responseEntity.getStatusCode().getReasonPhrase());
 
         Order resultOrder = responseEntity.getBody();
@@ -40,8 +42,8 @@ public class OrderControllerIntegrationTest {
         assertEquals(order.getComment(), resultOrder.getComment());
     }
 
-
-    @Test
+@Ignore
+@Test
     public void getAllOrders(){
         RestTemplate restTemplate = new RestTemplate();
         createOrder();
@@ -58,6 +60,7 @@ public class OrderControllerIntegrationTest {
         assertNotNull(responseEntity.getBody());
     }
 
+@Ignore
     @Test
     public void updateOrders(){
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -86,19 +89,33 @@ public class OrderControllerIntegrationTest {
         RestTemplate restTemplate = new RestTemplate();
         Order result = restTemplate.exchange(
                 ROOT + ADD,
-                HttpMethod.POST,
+                HttpMethod.PUT,
                 httpEntity,
                 Order.class).getBody();
         assertNotNull(result);
-        assertEquals("Oder1", result.getComment());
+        assertEquals("Заказ", result.getComment());
         assertNotNull(result.getOder_id());
         return result;
     }
 
     private Order orderPrefill() {
         Order order = new Order();
-        order.setDate(new Date());
-        order.setComment("Oder1");
+        order.setTimestamp(new Date());
+        order.setComment("Заказ");
+        order.setCustomer("Ivanov");
+        order.setTableNumber(3);
+
+        Dish dish = new Dish();
+        dish.setName("soupe");
+        dish.setAmount(1);
+
+        Dish dish1 = new Dish();
+        dish1.setName("bread");
+        dish1.setAmount(3);
+
+        order.getDish().add(dish);
+        order.getDish().add(dish1);
+
         return order;
     }
 

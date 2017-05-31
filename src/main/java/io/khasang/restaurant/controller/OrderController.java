@@ -14,13 +14,13 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
-    @RequestMapping(value = "/add", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
+    @RequestMapping(value = "/add", method = RequestMethod.PUT, produces = "application/json;charset=utf-8")
     @ResponseBody
     public Order addOrder(@RequestBody Order order){
         return orderService.addOrder(order);
     }
 
-    @RequestMapping(value = "/get/id/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
     @ResponseBody
     public Order getOrderById(@PathVariable(value = "id") String id){
         return orderService.getOrderById(Long.parseLong(id));

@@ -8,12 +8,18 @@ public class Dish {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private  long dish_id;
-    private String article;
-    private String description;
+    private String name;
     private int amount;
-    private double price;
 
     public Dish() {
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public long getDish_id() {
@@ -24,22 +30,6 @@ public class Dish {
         this.dish_id = dish_id;
     }
 
-    public String getArticle() {
-        return article;
-    }
-
-    public void setArticle(String article) {
-        this.article = article;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public int getAmount() {
         return amount;
     }
@@ -48,12 +38,5 @@ public class Dish {
         this.amount = amount;
     }
 
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
 }
 
