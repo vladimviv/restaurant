@@ -21,8 +21,7 @@ public class OrderControllerIntegrationTest {
     private final String GET_ID = "/get/";
     private final String DELETE = "/delete/";
     private final String ALL = "/all";
-
-@Ignore
+    
 @Test
     public void addOrder() {
         Order order = createOrder();
@@ -42,7 +41,6 @@ public class OrderControllerIntegrationTest {
         assertEquals(order.getComment(), resultOrder.getComment());
     }
 
-@Ignore
 @Test
     public void getAllOrders(){
         RestTemplate restTemplate = new RestTemplate();
@@ -60,7 +58,6 @@ public class OrderControllerIntegrationTest {
         assertNotNull(responseEntity.getBody());
     }
 
-@Ignore
     @Test
     public void updateOrders(){
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -68,7 +65,7 @@ public class OrderControllerIntegrationTest {
         RestTemplate restTemplate = new RestTemplate();
         Order order =  createOrder();
 
-        order.setComment("Comment 2");
+        order.setComment("Updated order");
         HttpEntity<Order> httpEntity = new HttpEntity<>(order, httpHeaders);
 
         Order resultUpdatedOrder = restTemplate.exchange(
