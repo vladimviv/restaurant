@@ -12,4 +12,12 @@ public interface OrderDao extends BasicDao<Order> {
      */
     Order addOrder(Order order);
 
+    /**
+     * Receive order for table with tableNumber
+     *
+     * @param tableNumber
+     * @return order
+     */
+
+    Order getByTable(int tableNumber);
 }

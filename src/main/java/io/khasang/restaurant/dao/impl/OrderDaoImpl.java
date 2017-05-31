@@ -24,4 +24,12 @@ public class OrderDaoImpl extends BasicDaoImpl<Order> implements OrderDao {
        return order;
     }
 
+    @Override
+    public Order getByTable(int tableNumber) {
+        Order order = (Order) sessionFactory.getCurrentSession()
+                .createQuery("from Order as o where o.tableNumber = ?")
+                .setParameter(0, tableNumber).getSingleResult();
+
+        return order;  //sessionFactory.getCurrentSession().get(Order.class, id);;
+    }
 }
