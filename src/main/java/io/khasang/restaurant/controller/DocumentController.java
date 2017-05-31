@@ -32,7 +32,7 @@ public class DocumentController {
         return documentService.deleteDocument(Long.parseLong(id));
     }
 
-    @RequestMapping(value = "/update", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
+    @RequestMapping(value = "/update", method = RequestMethod.PUT, produces = "application/json;charset=utf-8")
     @ResponseBody
     public Document updateDocument(@RequestBody Document document){
         documentService.updateDocument(document);

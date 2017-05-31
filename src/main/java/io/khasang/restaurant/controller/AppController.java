@@ -2,6 +2,7 @@ package io.khasang.restaurant.controller;
 
 import io.khasang.restaurant.model.Cat;
 import io.khasang.restaurant.model.Message;
+import io.khasang.restaurant.service.SpellService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +22,8 @@ public class AppController {
     private Message message;
     @Autowired
     private Cat cat;
+    @Autowired
+    private SpellService spellService;
 
     @RequestMapping("/")
     public String hello() {
@@ -57,6 +61,12 @@ public class AppController {
         modelAndView.setViewName("password");
         modelAndView.addObject("crypt", new BCryptPasswordEncoder().encode(password));
         return modelAndView;
+    }
+
+    @RequestMapping(value = "/speller/{word}", method = RequestMethod.GET)
+    public String checkWordSpeller(@PathVariable("word") String word, Model model) throws MalformedURLException {
+        model.addAttribute("answer", spellService.checkword(word));
+        return "speller";
     }
 
 }
