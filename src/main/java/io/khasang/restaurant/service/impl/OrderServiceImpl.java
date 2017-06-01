@@ -40,7 +40,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order getOrderByTable(int tableNumber) {
-        return orderDao.getByTable(tableNumber);
+    public List<Order> getListOrderByTable(int tableNumber) {
+        return orderDao.getListByTable(tableNumber);
     }
 }

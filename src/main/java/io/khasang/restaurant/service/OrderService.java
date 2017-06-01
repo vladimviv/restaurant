@@ -46,10 +46,10 @@ public interface OrderService {
     Order updateOrder(Order order);
 
     /**
-     * Receive order by table number
+     * Receive all orders for table with number
      *
      * @param tableNumber
      * @return order for table with tableNumber
      */
-    Order getOrderByTable(int tableNumber );
+    List<Order> getListOrderByTable(int tableNumber );
 }

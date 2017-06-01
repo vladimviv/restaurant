@@ -6,48 +6,48 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name="orderes")
+@Table(name="orders")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private  long oder_id;
+    private  long id;
 
-//    @Column(name = "`timestamp`")
-//    @Temporal(TemporalType.DATE)
-    private Date timestamp;
+    @Column(name = "`timestamp`")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date date;
 
     private String customer;
     private int tableNumber;
     private String comment;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    private List<Dish> dish = new ArrayList<>();
+    private List<OrderItem> items = new ArrayList<>();
 
     public Order() {
     }
 
-    public List<Dish> getDish() {
-        return dish;
+    public List<OrderItem> getItems() {
+        return items;
     }
 
-    public void setDish(List<Dish> dish) {
-        this.dish = dish;
+    public void setItems(List<OrderItem> items) {
+        this.items = items;
     }
 
-    public long getOder_id() {
-        return oder_id;
+    public long getId() {
+        return id;
     }
 
-    public void setOder_id(long oder_id) {
-        this.oder_id = oder_id;
+    public void setId(long id) {
+        this.id = id;
     }
 
-    public Date getTimestamp() {
-        return timestamp;
+    public Date getDate() {
+        return date;
     }
 
-    public void setTimestamp(Date timestamp) {
-        this.timestamp = timestamp;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public String getCustomer() {

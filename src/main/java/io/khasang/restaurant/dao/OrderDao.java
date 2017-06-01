@@ -2,6 +2,8 @@ package io.khasang.restaurant.dao;
 
 import io.khasang.restaurant.entity.Order;
 
+import java.util.List;
+
 public interface OrderDao extends BasicDao<Order> {
 
     /**
@@ -19,5 +21,5 @@ public interface OrderDao extends BasicDao<Order> {
      * @return order
      */
 
-    Order getByTable(int tableNumber);
+    List<Order> getListByTable(int tableNumber);
 }

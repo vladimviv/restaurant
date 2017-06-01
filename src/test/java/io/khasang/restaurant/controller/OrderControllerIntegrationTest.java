@@ -1,6 +1,6 @@
 package io.khasang.restaurant.controller;
 
-import io.khasang.restaurant.entity.Dish;
+import io.khasang.restaurant.entity.OrderItem;
 import io.khasang.restaurant.entity.Order;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -20,8 +20,10 @@ public class OrderControllerIntegrationTest {
     private final String UPDATE = "/update";
     private final String GET_ID = "/get/";
     private final String DELETE = "/delete/";
+    private final String TABLE = "/table/";
     private final String ALL = "/all";
-    
+
+//@Ignore
 @Test
     public void addOrder() {
         Order order = createOrder();
@@ -31,7 +33,7 @@ public class OrderControllerIntegrationTest {
                 HttpMethod.GET,
                 null,
                 Order.class,
-                order.getOder_id()
+                order.getId()
         );
 
         assertEquals("OK", responseEntity.getStatusCode().getReasonPhrase());
@@ -41,7 +43,8 @@ public class OrderControllerIntegrationTest {
         assertEquals(order.getComment(), resultOrder.getComment());
     }
 
-@Test
+//    @Ignore
+    @Test
     public void getAllOrders(){
         RestTemplate restTemplate = new RestTemplate();
         createOrder();
@@ -58,6 +61,26 @@ public class OrderControllerIntegrationTest {
         assertNotNull(responseEntity.getBody());
     }
 
+//    @Ignore
+    @Test
+    public void getAllOrdersByTable(){
+        RestTemplate restTemplate = new RestTemplate();
+        Order order = createOrder();
+
+        ResponseEntity<List<Order>> responseEntity = restTemplate.exchange(
+                ROOT + TABLE+ "{id}",
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<List<Order>>() {
+                },
+                order.getTableNumber()
+
+        );
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertNotNull(responseEntity.getBody());
+    }
+
+//    @Ignore
     @Test
     public void updateOrders(){
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -74,7 +97,7 @@ public class OrderControllerIntegrationTest {
                 httpEntity,
                 Order.class).getBody();
         assertNotNull(resultUpdatedOrder);
-        assertNotNull(resultUpdatedOrder.getOder_id());
+        assertNotNull(resultUpdatedOrder.getId());
         assertEquals(resultUpdatedOrder.getComment(), resultUpdatedOrder.getComment());
     }
 
@@ -91,31 +114,32 @@ public class OrderControllerIntegrationTest {
                 Order.class).getBody();
         assertNotNull(result);
         assertEquals("Заказ", result.getComment());
-        assertNotNull(result.getOder_id());
+        assertNotNull(result.getId());
         return result;
     }
 
     private Order orderPrefill() {
         Order order = new Order();
-        order.setTimestamp(new Date());
+        order.setDate(new Date());
         order.setComment("Заказ");
         order.setCustomer("Ivanov");
         order.setTableNumber(3);
 
-        Dish dish = new Dish();
-        dish.setName("soupe");
-        dish.setAmount(1);
+        OrderItem orderItem = new OrderItem();
+        orderItem.setName("soup");
+        orderItem.setAmount(1);
 
-        Dish dish1 = new Dish();
-        dish1.setName("bread");
-        dish1.setAmount(3);
+        OrderItem orderItem1 = new OrderItem();
+        orderItem1.setName("bread");
+        orderItem1.setAmount(3);
 
-        order.getDish().add(dish);
-        order.getDish().add(dish1);
+        order.getItems().add(orderItem);
+        order.getItems().add(orderItem1);
 
         return order;
     }
 
+//    @Ignore
     @Test
     public void deleteOrder(){
         Order order =  createOrder();
@@ -126,7 +150,7 @@ public class OrderControllerIntegrationTest {
                 HttpMethod.DELETE,
                 null,
                 String.class,
-                order.getOder_id()
+                order.getId()
         );
 
         assertEquals("OK", responseEntity.getStatusCode().getReasonPhrase());
@@ -136,7 +160,7 @@ public class OrderControllerIntegrationTest {
                 HttpMethod.GET,
                 null,
                 Order.class,
-                order.getOder_id()
+                order.getId()
         );
 
         assertNull(checkOrderExist.getBody());

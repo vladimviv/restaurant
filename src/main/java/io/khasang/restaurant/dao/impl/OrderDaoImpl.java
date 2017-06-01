@@ -5,6 +5,8 @@ import io.khasang.restaurant.entity.Order;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+
 public class OrderDaoImpl extends BasicDaoImpl<Order> implements OrderDao {
     @Autowired
     SessionFactory sessionFactory;
@@ -25,11 +27,11 @@ public class OrderDaoImpl extends BasicDaoImpl<Order> implements OrderDao {
     }
 
     @Override
-    public Order getByTable(int tableNumber) {
-        Order order = (Order) sessionFactory.getCurrentSession()
+    public List<Order> getListByTable(int tableNumber) {
+        List<Order> orders = (List<Order>) sessionFactory.getCurrentSession()
                 .createQuery("from Order as o where o.tableNumber = ?")
-                .setParameter(0, tableNumber).getSingleResult();
+                .setParameter(0, tableNumber).list();
 
-        return order;  //sessionFactory.getCurrentSession().get(Order.class, id);;
+        return orders;
     }
 }

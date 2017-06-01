@@ -28,8 +28,8 @@ public class OrderController {
 
     @RequestMapping(value = "/table/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public Order getOrderByTable(@PathVariable(value = "id") String id){
-        return orderService.getOrderByTable(Integer.parseInt(id));
+    public List<Order> getListOrderByTable(@PathVariable(value = "id") String id){
+        return orderService.getListOrderByTable(Integer.parseInt(id));
     }
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)

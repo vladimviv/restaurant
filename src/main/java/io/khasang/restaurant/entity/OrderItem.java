@@ -3,18 +3,16 @@ package io.khasang.restaurant.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "order_item")
+@Table(name="order_items")
 public class OrderItem {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private  long id;
+    private String name;
+    private int amount;
 
-    private String description;
-
-    private long id_menu;
-
-    private long id_order;
+    public OrderItem() {
+    }
 
     public long getId() {
         return id;
@@ -24,27 +22,20 @@ public class OrderItem {
         this.id = id;
     }
 
-    public String getDescription() {
-        return description;
+    public String getName() {
+        return name;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public long getId_menu() {
-        return id_menu;
+    public int getAmount() {
+        return amount;
     }
 
-    public void setId_menu(long id_menu) {
-        this.id_menu = id_menu;
-    }
-
-    public long getId_order() {
-        return id_order;
-    }
-
-    public void setId_order(long id_order) {
-        this.id_order = id_order;
+    public void setAmount(int amount) {
+        this.amount = amount;
     }
 }
+
