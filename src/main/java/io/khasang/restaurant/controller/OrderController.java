@@ -1,6 +1,7 @@
 package io.khasang.restaurant.controller;
 
 import io.khasang.restaurant.entity.Order;
+import io.khasang.restaurant.entity.OrderItem;
 import io.khasang.restaurant.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -57,4 +58,20 @@ public class OrderController {
         return orderService.nextStatus(Long.parseLong(id));
     }
 
-}
+    @RequestMapping(value = "/status/{status}", method = RequestMethod.GET, produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public List<Order> StatusList(@PathVariable(value = "status") String status) throws Exception {
+        return orderService.getListWithStatus(status);
+    }
+
+    @RequestMapping(value = "/lastorder/{table}", method = RequestMethod.GET, produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public Order LastOrder(@PathVariable(value = "table") String table) throws Exception {
+        return orderService.getLastOrder(Integer.parseInt(table));
+    }
+
+    @RequestMapping(value = "/additem/{id}", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public Order addItem(@PathVariable(value = "id") String id, @RequestBody OrderItem item) throws Exception {
+        return orderService.addOrderItem(Long.parseLong(id), item);
+    }}

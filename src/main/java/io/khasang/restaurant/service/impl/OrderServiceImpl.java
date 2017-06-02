@@ -2,6 +2,7 @@ package io.khasang.restaurant.service.impl;
 
 import io.khasang.restaurant.dao.OrderDao;
 import io.khasang.restaurant.entity.Order;
+import io.khasang.restaurant.entity.OrderItem;
 import io.khasang.restaurant.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,5 +48,20 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order nextStatus(long id) throws Exception {
         return orderDao.nextStatus(id);
+    }
+
+    @Override
+    public List<Order> getListWithStatus(String status) {
+        return orderDao.getListWithStatus(status);
+    }
+
+    @Override
+    public Order getLastOrder(int tableNumber) throws Exception {
+        return orderDao.getLastOrder(tableNumber);
+    }
+
+    @Override
+    public Order addOrderItem(long id, OrderItem item) throws Exception {
+        return orderDao.addOrderItem(id, item);
     }
 }

@@ -2,6 +2,7 @@ package io.khasang.restaurant.service;
 
 
 import io.khasang.restaurant.entity.Order;
+import io.khasang.restaurant.entity.OrderItem;
 
 import java.util.List;
 
@@ -60,4 +61,30 @@ public interface OrderService {
      * @return order with status
      */
     Order nextStatus(long id) throws Exception;
+
+    /**
+     * Receive all orders with status
+     *
+     * @param status
+     * @return list orders  with status
+     */
+
+    List<Order> getListWithStatus(String status);
+
+    /**
+     * Receive last order from table
+     *
+     * @param tableNumber
+     * @return last order
+     */
+    Order getLastOrder(int tableNumber) throws Exception;
+
+    /**
+     * add order item
+     *
+     * @param id - order id
+     * @param item - new order item
+     * @return  order with new item
+     */
+    Order addOrderItem(long id, OrderItem item) throws Exception;
 }
