@@ -22,8 +22,9 @@ public class OrderControllerIntegrationTest {
     private final String DELETE = "/delete/";
     private final String TABLE = "/table/";
     private final String ALL = "/all";
+    private final String NEXTSTATUS = "/nextstatus/";
 
-//@Ignore
+@Ignore
 @Test
     public void addOrder() {
         Order order = createOrder();
@@ -43,7 +44,7 @@ public class OrderControllerIntegrationTest {
         assertEquals(order.getComment(), resultOrder.getComment());
     }
 
-//    @Ignore
+    @Ignore
     @Test
     public void getAllOrders(){
         RestTemplate restTemplate = new RestTemplate();
@@ -61,7 +62,7 @@ public class OrderControllerIntegrationTest {
         assertNotNull(responseEntity.getBody());
     }
 
-//    @Ignore
+    @Ignore
     @Test
     public void getAllOrdersByTable(){
         RestTemplate restTemplate = new RestTemplate();
@@ -80,15 +81,16 @@ public class OrderControllerIntegrationTest {
         assertNotNull(responseEntity.getBody());
     }
 
-//    @Ignore
+    @Ignore
     @Test
     public void updateOrders(){
+        Order order =  createOrder();
+        order.setComment("Updated order");
+
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
         RestTemplate restTemplate = new RestTemplate();
-        Order order =  createOrder();
 
-        order.setComment("Updated order");
         HttpEntity<Order> httpEntity = new HttpEntity<>(order, httpHeaders);
 
         Order resultUpdatedOrder = restTemplate.exchange(
@@ -109,7 +111,7 @@ public class OrderControllerIntegrationTest {
         RestTemplate restTemplate = new RestTemplate();
         Order result = restTemplate.exchange(
                 ROOT + ADD,
-                HttpMethod.PUT,
+                HttpMethod.POST,
                 httpEntity,
                 Order.class).getBody();
         assertNotNull(result);
@@ -139,7 +141,7 @@ public class OrderControllerIntegrationTest {
         return order;
     }
 
-//    @Ignore
+    @Ignore
     @Test
     public void deleteOrder(){
         Order order =  createOrder();
@@ -164,6 +166,32 @@ public class OrderControllerIntegrationTest {
         );
 
         assertNull(checkOrderExist.getBody());
+    }
+//    @Ignore
+    @Test
+    public void nextStatus() {
+        Order order =  createOrder();
+        try {
+            order.nextStatus();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+        HttpEntity<Order> httpEntity = new HttpEntity<>(order, httpHeaders);
+        RestTemplate restTemplate = new RestTemplate();
+        Order resultUpdatedOrder = restTemplate.exchange(
+                ROOT +  NEXTSTATUS + "{id}",
+                HttpMethod.POST,
+                httpEntity,
+                Order.class,
+                order.getId()).getBody();
+        assertNotNull(resultUpdatedOrder);
+        assertNotNull(resultUpdatedOrder.getId());
+        assertEquals(order.getStatus(), resultUpdatedOrder.getStatus());
+
+
+
     }
 
 }
