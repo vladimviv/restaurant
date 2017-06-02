@@ -14,7 +14,7 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
-    @RequestMapping(value = "/add", method = RequestMethod.PUT, produces = "application/json;charset=utf-8")
+    @RequestMapping(value = "/add", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
     @ResponseBody
     public Order addOrder(@RequestBody Order order){
         return orderService.addOrder(order);
@@ -51,6 +51,10 @@ public class OrderController {
         return order;
     }
 
-
+    @RequestMapping(value = "/nextstatus/{id}", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public Order nextStatus(@PathVariable(value = "id") String id) throws Exception {
+        return orderService.nextStatus(Long.parseLong(id));
+    }
 
 }

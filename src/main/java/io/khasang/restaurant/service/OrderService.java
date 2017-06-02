@@ -52,4 +52,12 @@ public interface OrderService {
      * @return order for table with tableNumber
      */
     List<Order> getListOrderByTable(int tableNumber );
+
+    /**
+     * Set next status order by id
+     *
+     * @param id - id order
+     * @return order with status
+     */
+    Order nextStatus(long id) throws Exception;
 }

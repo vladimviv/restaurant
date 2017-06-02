@@ -31,7 +31,13 @@ public class OrderDaoImpl extends BasicDaoImpl<Order> implements OrderDao {
         List<Order> orders = (List<Order>) sessionFactory.getCurrentSession()
                 .createQuery("from Order as o where o.tableNumber = ?")
                 .setParameter(0, tableNumber).list();
-
         return orders;
+    }
+
+    @Override
+    public Order nextStatus(long id) throws Exception {
+        Order order = getById(id);
+        order.nextStatus();
+        return order;
     }
 }

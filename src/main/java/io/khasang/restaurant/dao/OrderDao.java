@@ -22,4 +22,12 @@ public interface OrderDao extends BasicDao<Order> {
      */
 
     List<Order> getListByTable(int tableNumber);
+
+    /**
+     * Set next status order by id
+     *
+     * @param id order
+     * @return order
+     */
+    Order nextStatus(long id) throws Exception;
 }

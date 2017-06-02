@@ -43,4 +43,9 @@ public class OrderServiceImpl implements OrderService {
     public List<Order> getListOrderByTable(int tableNumber) {
         return orderDao.getListByTable(tableNumber);
     }
+
+    @Override
+    public Order nextStatus(long id) throws Exception {
+        return orderDao.nextStatus(id);
+    }
 }
