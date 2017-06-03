@@ -52,19 +52,20 @@ public class OrderController {
         return order;
     }
 
-    @RequestMapping(value = "/nextstatus/{id}", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
+    @RequestMapping(value = "/changestatus/{id}/{status}", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
     @ResponseBody
-    public Order nextStatus(@PathVariable(value = "id") String id) throws Exception {
-        return orderService.nextStatus(Long.parseLong(id));
+    public Order changeStatus(@PathVariable(value = "id") String id,
+                            @PathVariable(value = "status") String status) throws Exception {
+        return orderService.changeStatus(Long.parseLong(id),status);
     }
 
-    @RequestMapping(value = "/status/{status}", method = RequestMethod.GET, produces = "application/json;charset=utf-8")
+    @RequestMapping(value = "/status/{status}", method = RequestMethod.GET)
     @ResponseBody
     public List<Order> StatusList(@PathVariable(value = "status") String status) throws Exception {
         return orderService.getListWithStatus(status);
     }
 
-    @RequestMapping(value = "/lastorder/{table}", method = RequestMethod.GET, produces = "application/json;charset=utf-8")
+    @RequestMapping(value = "/lastorder/{table}", method = RequestMethod.GET)
     @ResponseBody
     public Order LastOrder(@PathVariable(value = "table") String table) throws Exception {
         return orderService.getLastOrder(Integer.parseInt(table));

@@ -9,8 +9,8 @@ import java.util.List;
 @Table(name = "orders")
 public class Order {
     public static final String STATUS_NEW = "новый";
-    public static final String STATUS_WORK = "в работе";
     public static final String STATUS_READY = "готов";
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -93,35 +93,8 @@ public class Order {
         return status;
     }
 
-    public void setStatus(String status) throws Exception {
-        switch (status) {
-            case STATUS_NEW:
-                this.status = status;
-                break;
-            case STATUS_WORK:
-                this.status = status;
-                break;
-            case STATUS_READY:
-                this.status = status;
-                break;
-            default:
-                throw new Exception("status error");
-        }
-    }
-
-    public void nextStatus() throws Exception {
-        switch (status) {
-            case STATUS_NEW:
-                status = STATUS_WORK;
-                break;
-            case STATUS_WORK:
-                status = STATUS_READY;
-                date_ready = new Date();
-                break;
-            default:
-                throw new Exception("status error");
-        }
-
+    public void setStatus(String status) {
+        this.status = status;
     }
 
 }

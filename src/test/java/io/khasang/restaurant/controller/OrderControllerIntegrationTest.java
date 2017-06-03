@@ -22,9 +22,12 @@ public class OrderControllerIntegrationTest {
     private final String DELETE = "/delete/";
     private final String TABLE = "/table/";
     private final String ALL = "/all";
-    private final String NEXTSTATUS = "/nextstatus/";
+    private final String STATUS = "/status/";
+    private final String LAST_TABLE_ORDER = "/lastorder/";
+    private final String ADD_ITEM = "/additem/";
+    private final String CHANGE_STATUS = "/changestatus/";
 
-@Ignore
+//@Ignore
 @Test
     public void addOrder() {
         Order order = createOrder();
@@ -44,7 +47,7 @@ public class OrderControllerIntegrationTest {
         assertEquals(order.getComment(), resultOrder.getComment());
     }
 
-    @Ignore
+//    @Ignore
     @Test
     public void getAllOrders(){
         RestTemplate restTemplate = new RestTemplate();
@@ -62,7 +65,7 @@ public class OrderControllerIntegrationTest {
         assertNotNull(responseEntity.getBody());
     }
 
-    @Ignore
+//    @Ignore
     @Test
     public void getAllOrdersByTable(){
         RestTemplate restTemplate = new RestTemplate();
@@ -81,7 +84,7 @@ public class OrderControllerIntegrationTest {
         assertNotNull(responseEntity.getBody());
     }
 
-    @Ignore
+//    @Ignore
     @Test
     public void updateOrders(){
         Order order =  createOrder();
@@ -100,7 +103,7 @@ public class OrderControllerIntegrationTest {
                 Order.class).getBody();
         assertNotNull(resultUpdatedOrder);
         assertNotNull(resultUpdatedOrder.getId());
-        assertEquals(resultUpdatedOrder.getComment(), resultUpdatedOrder.getComment());
+        assertEquals(order.getComment(), resultUpdatedOrder.getComment());
     }
 
     private Order createOrder() {
@@ -141,7 +144,7 @@ public class OrderControllerIntegrationTest {
         return order;
     }
 
-    @Ignore
+//    @Ignore
     @Test
     public void deleteOrder(){
         Order order =  createOrder();
@@ -169,27 +172,90 @@ public class OrderControllerIntegrationTest {
     }
 //    @Ignore
     @Test
-    public void nextStatus() {
-        Order order =  createOrder();
-        try {
-            order.nextStatus();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void changeStatus() {
+        Order order = createOrder();
+
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
         HttpEntity<Order> httpEntity = new HttpEntity<>(order, httpHeaders);
         RestTemplate restTemplate = new RestTemplate();
         Order resultUpdatedOrder = restTemplate.exchange(
-                ROOT +  NEXTSTATUS + "{id}",
+                ROOT + CHANGE_STATUS + "{id}"  + "/{status}",
+                HttpMethod.POST,
+                httpEntity,
+                Order.class,
+                order.getId(),"готов").getBody();
+        assertNotNull(resultUpdatedOrder);
+        assertNotNull(resultUpdatedOrder.getId());
+        assertEquals("готов", resultUpdatedOrder.getStatus());
+
+    }
+
+//    @Ignore
+    @Test
+    public void statusList(){
+        RestTemplate restTemplate = new RestTemplate();
+        Order order = createOrder();
+        createOrder();
+        ResponseEntity<List<Order>> responseEntity = restTemplate.exchange(
+                ROOT + STATUS + "{status}",
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<List<Order>>() {
+                },
+                order.getStatus()
+
+        );
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertNotNull(responseEntity.getBody());
+
+    }
+
+
+//    @Ignore
+    @Test
+    public void lastTableOrder(){
+        RestTemplate restTemplate = new RestTemplate();
+        Order order1 = createOrder();
+        Order order2 = createOrder();
+        Date date1 = order1.getDate();
+        Date date2 = order2.getDate();
+        assertTrue(date2.getTime()>date1.getTime());
+        ResponseEntity<Order> responseEntity = restTemplate.exchange(
+                ROOT + LAST_TABLE_ORDER + "{table}",
+                HttpMethod.GET,
+                null,
+                Order.class,
+                order2.getTableNumber()
+
+        );
+        Order response = responseEntity.getBody();
+       assertEquals(order2.getDate().getTime(),response.getDate().getTime());
+    }
+
+//    @Ignore
+    @Test
+    public void addItem() {
+        Order order = createOrder();
+        int amountItem = order.getItems().size();
+
+        OrderItem item = new OrderItem();
+        item.setAmount(5);
+        item.setName("стейк");
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+        HttpEntity<OrderItem> httpEntity = new HttpEntity<>(item, httpHeaders);
+        RestTemplate restTemplate = new RestTemplate();
+        Order resultOrder = restTemplate.exchange(
+                ROOT + ADD_ITEM + "{id}",
                 HttpMethod.POST,
                 httpEntity,
                 Order.class,
                 order.getId()).getBody();
-        assertNotNull(resultUpdatedOrder);
-        assertNotNull(resultUpdatedOrder.getId());
-        assertEquals(order.getStatus(), resultUpdatedOrder.getStatus());
 
+        assertNotNull(resultOrder);
+        assertEquals("стейк",resultOrder.getItems().get(amountItem).getName());
 
 
     }

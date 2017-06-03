@@ -55,14 +55,6 @@ public interface OrderService {
     List<Order> getListOrderByTable(int tableNumber );
 
     /**
-     * Set next status order by id
-     *
-     * @param id - id order
-     * @return order with status
-     */
-    Order nextStatus(long id) throws Exception;
-
-    /**
      * Receive all orders with status
      *
      * @param status
@@ -87,4 +79,14 @@ public interface OrderService {
      * @return  order with new item
      */
     Order addOrderItem(long id, OrderItem item) throws Exception;
+
+    /**
+     * Change status for order with id
+     *
+     * @param id - order id
+     * @param status - status
+
+     * @return  order with new status
+     */
+    Order changeStatus(long id, String status);
 }

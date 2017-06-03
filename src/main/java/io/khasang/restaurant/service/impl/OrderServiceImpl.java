@@ -46,11 +46,6 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order nextStatus(long id) throws Exception {
-        return orderDao.nextStatus(id);
-    }
-
-    @Override
     public List<Order> getListWithStatus(String status) {
         return orderDao.getListWithStatus(status);
     }
@@ -63,5 +58,10 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order addOrderItem(long id, OrderItem item) throws Exception {
         return orderDao.addOrderItem(id, item);
+    }
+
+    @Override
+    public Order changeStatus(long id, String status) {
+        return orderDao.changeStatus(id,status);
     }
 }

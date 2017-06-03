@@ -25,14 +25,6 @@ public interface OrderDao extends BasicDao<Order> {
     List<Order> getListByTable(int tableNumber);
 
     /**
-     * Set next status order by id
-     *
-     * @param id order
-     * @return order
-     */
-    Order nextStatus(long id) throws Exception;
-
-    /**
      * Receive orders with status
      *
      * @param status
@@ -56,4 +48,14 @@ public interface OrderDao extends BasicDao<Order> {
      * @return  order with new item
      */
     Order addOrderItem(long id, OrderItem item) throws Exception;
+
+    /**
+     * Change status for order with id
+     *
+     * @param id - order id
+     * @param status - status
+
+     * @return  order with new status
+     */
+    Order changeStatus(long id, String status);
 }
