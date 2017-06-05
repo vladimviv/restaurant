@@ -50,7 +50,7 @@
             'description': $('#putDescription').val()
         };
         $.ajax({
-            type: 'POST',
+            type: 'PUT',
             url: service + "/update",
             contentType: 'application/json;charset=utf-8',
             data: JSON.stringify(JSONObject),
