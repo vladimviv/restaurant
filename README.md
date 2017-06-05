@@ -13,7 +13,7 @@
  
 ### Структура
 
-#####Заказы (orders)
+##### Заказы (orders)
 1. **id** bigint — первичный ключ    
 2. **date** timestamp — дата и время заказа  
 3. **date_ready** timestamp — дата и время выполнения заказа
@@ -22,7 +22,7 @@
 5. **status** character varying(20) — статус заказа [новый, готов]
 6. **comment** character varying(255) — комментарий к заказа
 
-#####Строчки заказа (order_items)
+##### Строчки заказа (order_items)
 1. **id** bigint — первичный ключ    
 2. **name** character varying(255) — наименование блюда   
 3. **amount** integer — количество
