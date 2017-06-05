@@ -17,37 +17,37 @@ public class OrderController {
 
     @RequestMapping(value = "/add", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
     @ResponseBody
-    public Order addOrder(@RequestBody Order order){
+    public Order addOrder(@RequestBody Order order) {
         return orderService.addOrder(order);
     }
 
     @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public Order getOrderById(@PathVariable(value = "id") String id){
+    public Order getOrderById(@PathVariable(value = "id") String id) {
         return orderService.getOrderById(Long.parseLong(id));
     }
 
     @RequestMapping(value = "/table/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public List<Order> getListOrderByTable(@PathVariable(value = "id") String id){
+    public List<Order> getListOrderByTable(@PathVariable(value = "id") String id) {
         return orderService.getListOrderByTable(Integer.parseInt(id));
     }
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     @ResponseBody
-    public List<Order> getOrderList(){
+    public List<Order> getOrderList() {
         return orderService.getOrderList();
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
     @ResponseBody
-    public Order deleteOrder(@PathVariable(value = "id") String id){
+    public Order deleteOrder(@PathVariable(value = "id") String id) {
         return orderService.deleteOrder(Long.parseLong(id));
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
     @ResponseBody
-    public Order updateOrder(@RequestBody Order order){
+    public Order updateOrder(@RequestBody Order order) {
         orderService.updateOrder(order);
         return order;
     }
@@ -55,8 +55,8 @@ public class OrderController {
     @RequestMapping(value = "/changestatus/{id}/{status}", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
     @ResponseBody
     public Order changeStatus(@PathVariable(value = "id") String id,
-                            @PathVariable(value = "status") String status) throws Exception {
-        return orderService.changeStatus(Long.parseLong(id),status);
+                              @PathVariable(value = "status") String status) throws Exception {
+        return orderService.changeStatus(Long.parseLong(id), status);
     }
 
     @RequestMapping(value = "/status/{status}", method = RequestMethod.GET)
@@ -75,4 +75,5 @@ public class OrderController {
     @ResponseBody
     public Order addItem(@PathVariable(value = "id") String id, @RequestBody OrderItem item) throws Exception {
         return orderService.addOrderItem(Long.parseLong(id), item);
-    }}
+    }
+}

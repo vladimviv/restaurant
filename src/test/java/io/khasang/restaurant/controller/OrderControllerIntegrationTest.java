@@ -27,8 +27,8 @@ public class OrderControllerIntegrationTest {
     private final String ADD_ITEM = "/additem/";
     private final String CHANGE_STATUS = "/changestatus/";
 
-//@Ignore
-@Test
+    //@Ignore
+    @Test
     public void addOrder() {
         Order order = createOrder();
         RestTemplate restTemplate = new RestTemplate();
@@ -47,9 +47,9 @@ public class OrderControllerIntegrationTest {
         assertEquals(order.getComment(), resultOrder.getComment());
     }
 
-//    @Ignore
+    //    @Ignore
     @Test
-    public void getAllOrders(){
+    public void getAllOrders() {
         RestTemplate restTemplate = new RestTemplate();
         createOrder();
         createOrder();
@@ -65,14 +65,14 @@ public class OrderControllerIntegrationTest {
         assertNotNull(responseEntity.getBody());
     }
 
-//    @Ignore
+    //    @Ignore
     @Test
-    public void getAllOrdersByTable(){
+    public void getAllOrdersByTable() {
         RestTemplate restTemplate = new RestTemplate();
         Order order = createOrder();
 
         ResponseEntity<List<Order>> responseEntity = restTemplate.exchange(
-                ROOT + TABLE+ "{id}",
+                ROOT + TABLE + "{id}",
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<List<Order>>() {
@@ -84,10 +84,10 @@ public class OrderControllerIntegrationTest {
         assertNotNull(responseEntity.getBody());
     }
 
-//    @Ignore
+    //    @Ignore
     @Test
-    public void updateOrders(){
-        Order order =  createOrder();
+    public void updateOrders() {
+        Order order = createOrder();
         order.setComment("Updated order");
 
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -144,10 +144,10 @@ public class OrderControllerIntegrationTest {
         return order;
     }
 
-//    @Ignore
+    //    @Ignore
     @Test
-    public void deleteOrder(){
-        Order order =  createOrder();
+    public void deleteOrder() {
+        Order order = createOrder();
 
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> responseEntity = restTemplate.exchange(
@@ -170,7 +170,8 @@ public class OrderControllerIntegrationTest {
 
         assertNull(checkOrderExist.getBody());
     }
-//    @Ignore
+
+    //    @Ignore
     @Test
     public void changeStatus() {
         Order order = createOrder();
@@ -180,20 +181,20 @@ public class OrderControllerIntegrationTest {
         HttpEntity<Order> httpEntity = new HttpEntity<>(order, httpHeaders);
         RestTemplate restTemplate = new RestTemplate();
         Order resultUpdatedOrder = restTemplate.exchange(
-                ROOT + CHANGE_STATUS + "{id}"  + "/{status}",
+                ROOT + CHANGE_STATUS + "{id}" + "/{status}",
                 HttpMethod.POST,
                 httpEntity,
                 Order.class,
-                order.getId(),"готов").getBody();
+                order.getId(), "готов").getBody();
         assertNotNull(resultUpdatedOrder);
         assertNotNull(resultUpdatedOrder.getId());
         assertEquals("готов", resultUpdatedOrder.getStatus());
 
     }
 
-//    @Ignore
+    //    @Ignore
     @Test
-    public void statusList(){
+    public void statusList() {
         RestTemplate restTemplate = new RestTemplate();
         Order order = createOrder();
         createOrder();
@@ -212,15 +213,15 @@ public class OrderControllerIntegrationTest {
     }
 
 
-//    @Ignore
+    //    @Ignore
     @Test
-    public void lastTableOrder(){
+    public void lastTableOrder() {
         RestTemplate restTemplate = new RestTemplate();
         Order order1 = createOrder();
         Order order2 = createOrder();
         Date date1 = order1.getDate();
         Date date2 = order2.getDate();
-        assertTrue(date2.getTime()>date1.getTime());
+        assertTrue(date2.getTime() > date1.getTime());
         ResponseEntity<Order> responseEntity = restTemplate.exchange(
                 ROOT + LAST_TABLE_ORDER + "{table}",
                 HttpMethod.GET,
@@ -230,10 +231,10 @@ public class OrderControllerIntegrationTest {
 
         );
         Order response = responseEntity.getBody();
-       assertEquals(order2.getDate().getTime(),response.getDate().getTime());
+        assertEquals(order2.getDate().getTime(), response.getDate().getTime());
     }
 
-//    @Ignore
+    //    @Ignore
     @Test
     public void addItem() {
         Order order = createOrder();
@@ -255,7 +256,7 @@ public class OrderControllerIntegrationTest {
                 order.getId()).getBody();
 
         assertNotNull(resultOrder);
-        assertEquals("стейк",resultOrder.getItems().get(amountItem).getName());
+        assertEquals("стейк", resultOrder.getItems().get(amountItem).getName());
 
 
     }

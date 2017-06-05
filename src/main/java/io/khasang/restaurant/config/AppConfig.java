@@ -26,7 +26,7 @@ public class AppConfig {
     private Environment environment;
 
     @Bean
-    public UserDetailsService userDetailsService(){
+    public UserDetailsService userDetailsService() {
         JdbcDaoImpl jdbcImpl = new JdbcDaoImpl();
         jdbcImpl.setDataSource(dataSource());
         jdbcImpl.setUsersByUsernameQuery(environment.getProperty("usersByQuery"));
@@ -45,12 +45,12 @@ public class AppConfig {
     }
 
     @Bean
-    public DocumentDao documentDao(){
+    public DocumentDao documentDao() {
         return new DocumentDaoImpl(Document.class);
     }
 
     @Bean
-    public OrderDao orderDao(){
+    public OrderDao orderDao() {
         return new OrderDaoImpl(Order.class);
     }
 

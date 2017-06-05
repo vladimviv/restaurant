@@ -6,6 +6,7 @@ import io.khasang.restaurant.entity.OrderItem;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Date;
 import java.util.List;
 
 public class OrderDaoImpl extends BasicDaoImpl<Order> implements OrderDao {
@@ -14,17 +15,6 @@ public class OrderDaoImpl extends BasicDaoImpl<Order> implements OrderDao {
 
     public OrderDaoImpl(Class<Order> entityClass) {
         super(entityClass);
-    }
-
-    @Override
-    public Order create(Order entity) {
-        return null;
-    }
-
-    @Override
-    public Order addOrder(Order order) {
-       sessionFactory.getCurrentSession().save(order);
-       return order;
     }
 
     @Override
@@ -49,17 +39,16 @@ public class OrderDaoImpl extends BasicDaoImpl<Order> implements OrderDao {
                 .createQuery("from Order as o where o.tableNumber = ? and o.date in (select MAX(date) from Order where tableNumber = ?)")
                 .setParameter(0, tableNumber)
                 .setParameter(1, tableNumber).list();
-        if (orders.size()>0)
-        {
+        if (orders.size() > 0) {
             return orders.get(0);
         }
         throw new Exception("order not found");
     }
 
     @Override
-    public Order addOrderItem(long id, OrderItem item) throws Exception {
+    public Order addOrderItem(long id, OrderItem item) {
         Order order = getById(id);
-        if (order != null){
+        if (order != null) {
             order.getItems().add(item);
             getCurrentSession().update(order);
         }
@@ -69,8 +58,9 @@ public class OrderDaoImpl extends BasicDaoImpl<Order> implements OrderDao {
     @Override
     public Order changeStatus(long id, String status) {
         Order order = getCurrentSession().get(Order.class, id);
-        if(order==null) return order;
-        if((status.equals(Order.STATUS_NEW))||(status.equals(Order.STATUS_READY))){
+        if (order == null) return order;
+        if ((status.equals(Order.STATUS_NEW)) || (status.equals(Order.STATUS_READY))) {
+            if (status.equals(Order.STATUS_READY)) order.setDate_ready(new Date());
             order.setStatus(status);
             getCurrentSession().update(order);
         }

@@ -52,7 +52,7 @@ public interface OrderService {
      * @param tableNumber
      * @return order for table with tableNumber
      */
-    List<Order> getListOrderByTable(int tableNumber );
+    List<Order> getListOrderByTable(int tableNumber);
 
     /**
      * Receive all orders with status
@@ -74,19 +74,18 @@ public interface OrderService {
     /**
      * add order item
      *
-     * @param id - order id
+     * @param id   - order id
      * @param item - new order item
-     * @return  order with new item
+     * @return order with new item
      */
     Order addOrderItem(long id, OrderItem item) throws Exception;
 
     /**
      * Change status for order with id
      *
-     * @param id - order id
+     * @param id     - order id
      * @param status - status
-
-     * @return  order with new status
+     * @return order with new status
      */
     Order changeStatus(long id, String status);
 }

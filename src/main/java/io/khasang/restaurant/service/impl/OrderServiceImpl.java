@@ -17,7 +17,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order addOrder(Order order) {
-        return orderDao.addOrder(order);
+        return orderDao.create(order);
     }
 
     @Override
@@ -62,6 +62,6 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order changeStatus(long id, String status) {
-        return orderDao.changeStatus(id,status);
+        return orderDao.changeStatus(id, status);
     }
 }

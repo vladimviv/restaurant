@@ -8,14 +8,6 @@ import java.util.List;
 public interface OrderDao extends BasicDao<Order> {
 
     /**
-     * Create order at database
-     *
-     * @param order - order
-     * @return order
-     */
-    Order addOrder(Order order);
-
-    /**
      * Receive order for table with tableNumber
      *
      * @param tableNumber
