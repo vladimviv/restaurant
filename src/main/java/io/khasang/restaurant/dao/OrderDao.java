@@ -13,7 +13,6 @@ public interface OrderDao extends BasicDao<Order> {
      * @param tableNumber
      * @return order
      */
-
     List<Order> getListByTable(int tableNumber);
 
     /**
