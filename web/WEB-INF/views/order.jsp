@@ -16,7 +16,7 @@
             dataType: 'json',
             async: false,
             success: function (result) {
-                order(result);
+                $('#response').html(order(result));
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 $('#response').html(JSON.stringify(jqXHR));
@@ -40,7 +40,7 @@
             }
             itemTxt += "<br>";
         }
-        $('#response').html(headTxt + itemTxt);
+        return (headTxt + itemTxt);
     };
 
     var RestPut = function (client_name, client_description) {
@@ -91,7 +91,7 @@
             datatype: 'json',
             async: false,
             success: function (result) {
-                orderAll(result)
+                $('#response').html(orderAll(result));
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 $('#response').html(JSON.stringify(jqXHR));
@@ -101,30 +101,11 @@
 
     function orderAll(result) {
         var j;
-        var i;
-        var itemTxt = "";
-        var headTxt = "";
         var txt="";
         for (j = 0; j < result.length; j++) {
-             headTxt="";
-             headTxt = "Номер заказа: " + result[j].id + "<br>" +
-                "Время приема заказа: " + result[j].date + "<br>" +
-                "Время выполнения заказа: " + result[j].date_ready + "<br>" +
-                "Заказчик: " + result[j].customer + "<br>" +
-                "Номер столика: " + result[j].tableNumber + "<br>" +
-                "Статус заказа: " + result[j].status + "<br>" +
-                "Дополнительная информация: " + result[j].comment + "<br>";
-             itemTxt = "";
-             for (i = 0; i < result[j].items.length; i++) {
-                for (x in result[j].items[i]) {
-                    itemTxt += (result[j].items[i][x] + " ");
-                }
-                itemTxt += "<br>";
-             }
-             txt += headTxt + itemTxt + "<hr>";
+            txt += order(result[j])+ "<hr>";
         }
-
-        $('#response').html(txt);
+        return txt;
     };
 
     var RestDelete = function (id) {
