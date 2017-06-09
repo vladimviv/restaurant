@@ -30,6 +30,12 @@ public class AppController {
         return "document";
     }
 
+    @RequestMapping("/order")
+    public String order() {
+        return "order";
+    }
+
+
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String createTable(Model model) {
         model.addAttribute("create", cat.createCatTable());
