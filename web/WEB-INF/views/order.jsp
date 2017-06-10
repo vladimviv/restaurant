@@ -24,10 +24,20 @@
         });
     };
 
+    function strDate(d) {
+        var str = "";
+        if (d != null) str = new Date(d).toUTCString();
+        return str;
+    }
     function order(result) {
         var headTxt = "Номер заказа: " + result.id + "<br>" +
+
             "Время приема заказа: " + result.date + "<br>" +
             "Время выполнения заказа: " + ((result.date_ready == null)?"не выполнен":result.date_ready) + "<br>" +
+
+            "Время приема заказа____: " + strDate(result.date) + "<br>" +
+            "Время выполнения заказа: " + strDate(result.date_ready) + "<br>" +
+
             "Заказчик: " + result.customer + "<br>" +
             "Номер столика: " + result.tableNumber + "<br>" +
             "Статус заказа: " + result.status + "<br>" +
@@ -123,9 +133,9 @@
 
     function orderAll(result) {
         var j;
-        var txt="";
+        var txt = "";
         for (j = 0; j < result.length; j++) {
-            txt += order(result[j])+ "<hr>";
+            txt += order(result[j]) + "<hr>";
         }
         return txt;
     };
