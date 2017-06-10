@@ -27,7 +27,7 @@
     function order(result) {
         var headTxt = "Номер заказа: " + result.id + "<br>" +
             "Время приема заказа: " + result.date + "<br>" +
-            "Время выполнения заказа: " + result.date_ready + "<br>" +
+            "Время выполнения заказа: " + ((result.date_ready == null)?"не выполнен":result.date_ready) + "<br>" +
             "Заказчик: " + result.customer + "<br>" +
             "Номер столика: " + result.tableNumber + "<br>" +
             "Статус заказа: " + result.status + "<br>" +
@@ -41,6 +41,28 @@
             itemTxt += "<br>";
         }
         return (headTxt + itemTxt);
+    };
+
+    var RestAdd = function () {
+        var JSONObject = {
+            'customer': $('#customer').val(),
+            'tableNumber': $('#tableNumber').val(),
+            'comment': $('#comment').val(),
+        };
+        $.ajax({
+            type: 'POST',
+            url: service + "/add",
+            contentType: 'application/json;charset=utf-8',
+            data: JSON.stringify(JSONObject),
+            dataType: 'json',
+            async: false,
+            success: function (result, textStatus) {
+                $('#response').html(order(result));
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                $('#response').html(JSON.stringify(jqXHR));
+            }
+        });
     };
 
     var RestPut = function (client_name, client_description) {
@@ -148,6 +170,21 @@
             </tr>
             </tbody>
         </table>
+        <form class="form-inline">
+            <div class="form-group">
+                <label for="customer">Заказчик</label>
+                <input type="text" class="form-control" id="customer">
+            </div>
+            <div class="form-group">
+                <label for="tableNumber">Столик №</label>
+                <input type="number" class="form-control" id="tableNumber">
+            </div>
+            <div class="form-group">
+                <label for="comment">Доп. информация</label>
+                <input type="text"  class="form-control" id="comment" size="100">
+            </div>
+            <button type="button" class="btn btn-default" onclick="RestAdd()">Add</button>
+        </form>
     </div>
 
     <div class="panel panel-default">
