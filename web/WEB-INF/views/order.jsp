@@ -32,8 +32,8 @@
     function order(result) {
         var headTxt = "Номер заказа: " + result.id + "<br>" +
 
-            "Время приема заказа: " + result.date + "<br>" +
-            "Время выполнения заказа: " + ((result.date_ready == null)?"не выполнен":result.date_ready) + "<br>" +
+//            "Время приема заказа: " + result.date + "<br>" +
+//            "Время выполнения заказа: " + ((result.date_ready == null) ? "не выполнен" : result.date_ready) + "<br>" +
 
             "Время приема заказа____: " + strDate(result.date) + "<br>" +
             "Время выполнения заказа: " + strDate(result.date_ready) + "<br>" +
@@ -191,7 +191,7 @@
             </div>
             <div class="form-group">
                 <label for="comment">Доп. информация</label>
-                <input type="text"  class="form-control" id="comment" size="100">
+                <input type="text" class="form-control" id="comment" size="100">
             </div>
             <button type="button" class="btn btn-default" onclick="RestAdd()">Add</button>
         </form>
