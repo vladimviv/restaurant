@@ -6,6 +6,15 @@
     <%--<script src="js/jquery.min.js" type="text/javascript"></script>--%>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
+<style>
+    form {
+        border-radius: 5px;
+        background-color: #f2f2f2;
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+</style>
 <body>
 <script type="text/javascript">
     var service = '/order';
@@ -42,13 +51,8 @@
 
     function order(result) {
         var headTxt = "Номер заказа: " + result.id + "<br>" +
-
-//            "Время приема заказа: " + result.date + "<br>" +
-//            "Время выполнения заказа: " + ((result.date_ready == null) ? "не выполнен" : result.date_ready) + "<br>" +
-
             "Время приема заказа____: " + strDate(result.date) + "<br>" +
             "Время выполнения заказа: " + strDate(result.date_ready) + "<br>" +
-
             "Заказчик: " + result.customer + "<br>" +
             "Номер столика: " + result.tableNumber + "<br>" +
             "Статус заказа: " + result.status + "<br>" +
@@ -168,6 +172,8 @@
     };
 
     var RestDelete = function (id) {
+        var isDel = confirm("Вы действительно хотите удалить заказ " + id +" ?");
+        if (isDel == false) return;
         $.ajax({
             type: 'DELETE',
             url: service + "/delete/" + id,
@@ -190,23 +196,21 @@
     </div>
 
     <div class="panel-body">
-        <table class="table">
-            <tbody>
-            <tr>
-                <td>Все заказы</td>
-                <td>
-                    <button type="button" onclick="RestGetAll()">Показать</button>
-                </td>
-            </tr>
-            <tr>
-                <td>Заказ с номером:</td>
-                <td><input id="getDocumentId" value=""></td>
-                <td>
-                    <button type="button" onclick="RestGet($('#getDocumentId').val())">Показать</button>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+        <div id="formAllOrder">
+            <form class="form-inline">
+                <label for="butAll">Все заказы</label>
+                <button id="butAll" type="button" class="btn btn-default" onclick="RestGetAll()">Показать</button>
+            </form>
+        </div>
+        <div id="formIdOrder">
+            <form class="form-inline">
+                <label for="butId">Заказ с номером</label>
+                <input type="text" class="form-control" id="getDocumentId" value="">
+                <button id="butId" type="button" class="btn btn-default" onclick="RestGet($('#getDocumentId').val())">Показать</button>
+                <button id="butDel" type="button" class="btn btn-default" onclick="RestDelete($('#getDocumentId').val())">Удалить</button>
+            </form>
+        </div>
+
         <form class="form-inline">
             <div class="form-group">
                 <label for="customer">Заказчик</label>
@@ -218,7 +222,7 @@
             </div>
             <div class="form-group">
                 <label for="comment">Доп. информация</label>
-                <input type="text" class="form-control" id="comment" size="100">
+                <input type="text" class="form-control" id="comment" size="80">
             </div>
             <button type="button" class="btn btn-default" onclick="RestAdd()">Новый заказ</button>
         </form>
@@ -241,7 +245,7 @@
 
     <div class="panel panel-default">
         <div class="panel-heading">
-            <strong>RESPONSE</strong>
+            <strong>Результат запроса</strong>
         </div>
         <div class="panel-body" id="response"></div>
     </div>

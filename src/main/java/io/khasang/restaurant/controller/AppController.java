@@ -27,7 +27,7 @@ public class AppController {
 
     @RequestMapping("/")
     public String hello() {
-        return "order";
+        return "document";
     }
 
     @RequestMapping("/order")
