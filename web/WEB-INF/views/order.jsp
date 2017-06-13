@@ -2,9 +2,12 @@
 <html>
 <head>
     <title>Заказы</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js" type="text/javascript"></script>
+    <%--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js" type="text/javascript"></script>--%>
     <%--<script src="js/jquery.min.js" type="text/javascript"></script>--%>
+    <%--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">--%>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <style>
     form {
@@ -13,7 +16,9 @@
         padding: 5px;
         border: 1px solid #ccc;
         border-radius: 4px;
+        display: none;
     }
+
 </style>
 <body>
 <script type="text/javascript">
@@ -40,24 +45,24 @@
     }
 
     function orderItem(result) {
-        var itemTxt = "<table border='1'><tr><th>Блюдо</th><th>Количество</th></tr>";
+        var itemTxt = '<table class="table" border="1"><tr><th>Блюдо</th><th>Количество</th></tr>';
         for (i = 0; i < result.length; i++) {
-             itemTxt += "<tr><td>"+result[i].name+"</td>";
-             itemTxt += "<td>"+result[i].amount+"</td></tr>";
+            itemTxt += "<tr><td>" + result[i].name + "</td>";
+            itemTxt += "<td>" + result[i].amount + "</td></tr>";
         }
-        itemTxt = itemTxt+"</table>";
+        itemTxt = itemTxt + "</table>";
         return itemTxt;
     };
 
     function order(result) {
-        var headTxt = "Номер заказа: " + result.id + "<br>" +
+        var headTxt = "Заказ с номером: " + result.id + "<br>" +
             "Время приема заказа____: " + strDate(result.date) + "<br>" +
             "Время выполнения заказа: " + strDate(result.date_ready) + "<br>" +
             "Заказчик: " + result.customer + "<br>" +
-            "Номер столика: " + result.tableNumber + "<br>" +
+            "Столик номер: " + result.tableNumber + "<br>" +
             "Статус заказа: " + result.status + "<br>" +
             "Дополнительная информация: " + result.comment + "<br>";
-        if (result.items.length>0) {
+        if (result.items.length > 0) {
             headTxt = headTxt + orderItem(result.items);
         }
         return headTxt;
@@ -92,7 +97,7 @@
         };
         $.ajax({
             type: 'POST',
-            url: service + "/additem/"+id,
+            url: service + "/additem/" + id,
             contentType: 'application/json;charset=utf-8',
             data: JSON.stringify(JSONObject),
             dataType: 'json',
@@ -172,7 +177,7 @@
     };
 
     var RestDelete = function (id) {
-        var isDel = confirm("Вы действительно хотите удалить заказ " + id +" ?");
+        var isDel = confirm("Вы действительно хотите удалить заказ " + id + " ?");
         if (isDel == false) return;
         $.ajax({
             type: 'DELETE',
@@ -187,68 +192,106 @@
             }
         });
     };
+    function getForm(idForm) {
+        var formShow="#"+idForm;
+        $("form").hide();
+        $(formShow).show();
+        $("#butDel").hide();
+    }
+    function getFormDel(idForm) {
+        var formShow="#"+idForm;
+        $("#butDel").show();
+        $("form").hide();
+        $(formShow).show();
+    }
 
 </script>
 
-<div class="panel panel-default">
-    <div class="panel-heading">
-        Работа с заказами
-    </div>
-
-    <div class="panel-body">
-        <div id="formAllOrder">
-            <form class="form-inline">
-                <label for="butAll">Все заказы</label>
-                <button id="butAll" type="button" class="btn btn-default" onclick="RestGetAll()">Показать</button>
-            </form>
-        </div>
-        <div id="formIdOrder">
-            <form class="form-inline">
-                <label for="butId">Заказ с номером</label>
-                <input type="text" class="form-control" id="getDocumentId" value="">
-                <button id="butId" type="button" class="btn btn-default" onclick="RestGet($('#getDocumentId').val())">Показать</button>
-                <button id="butDel" type="button" class="btn btn-default" onclick="RestDelete($('#getDocumentId').val())">Удалить</button>
-            </form>
-        </div>
-
-        <form class="form-inline">
-            <div class="form-group">
-                <label for="customer">Заказчик</label>
-                <input type="text" class="form-control" id="customer">
-            </div>
-            <div class="form-group">
-                <label for="tableNumber">Столик №</label>
-                <input type="number" class="form-control" id="tableNumber">
-            </div>
-            <div class="form-group">
-                <label for="comment">Доп. информация</label>
-                <input type="text" class="form-control" id="comment" size="80">
-            </div>
-            <button type="button" class="btn btn-default" onclick="RestAdd()">Новый заказ</button>
-        </form>
-        <form class="form-inline">
-            <div class="form-group">
-                <label for="order">Заказ №</label>
-                <input type="number" class="form-control" id="order">
-            </div>
-            <div class="form-group">
-                <label for="dish">Блюдо</label>
-                <input type="text" class="form-control" id="dish">
-            </div>
-            <div class="form-group">
-                <label for="comment">Количество</label>
-                <input type="number" class="form-control" id="amount">
-            </div>
-            <button type="button" class="btn btn-default" onclick="AddItem($('#order').val())">Добавить блюдо</button>
-        </form>
-    </div>
+<ul class="nav nav-tabs">
+        <li class="dropdown">
+            <a href="#" data-toggle="dropdown" class="dropdown-toggle">Посмотреть Заказ(ы)<b class="caret"></b></a>
+            <ul class="dropdown-menu">
+                <li><a href="#" onclick=getForm('formOrderAll')>Все</a></li>
+                <li><a href="#" onclick="getForm('formOrderId')">По номеру</a></li>
+                <li class="divider"></li>
+                <li><a href="#">Для выбранного столика</a></li>
+                <li><a href="#">Последний для выбранного столику</a></li>
+            </ul>
+        </li>
+        <li class="dropdown">
+            <a href="#" data-toggle="dropdown" class="dropdown-toggle">Добавить (Заказ/Блюдо)<b class="caret"></b></a>
+            <ul class="dropdown-menu">
+                <li><a href="#" onclick="getForm('formOrderAdd')">Заказ</a></li>
+                <li><a href="#" onclick="getForm('formItemAdd')">Блюдо</a></li>
+            </ul>
+        </li>
+        <li class="active"><a href="#" onclick="getFormDel('formOrderId')">Удалить</a></li>
+    </ul>
 
     <div class="panel panel-default">
         <div class="panel-heading">
-            <strong>Результат запроса</strong>
+            Работа с заказами
         </div>
-        <div class="panel-body" id="response"></div>
+
+        <div class="panel-body">
+            <div>
+                <form id="formOrderAll" class="form-inline">
+                    <label for="butAll">Все заказы</label>
+                    <button id="butAll" type="button" class="btn btn-default" onclick="RestGetAll()">Показать</button>
+                </form>
+            </div>
+            <div>
+                <form id="formOrderId" class="form-inline">
+                    <label for="butId">Заказ с номером</label>
+                    <input type="text" class="form-control" id="getDocumentId" value="">
+                    <button id="butId" type="button" class="btn btn-default"
+                            onclick="RestGet($('#getDocumentId').val())">Показать
+                    </button>
+                    <button id="butDel" type="button" class="btn btn-default"
+                            onclick="RestDelete($('#getDocumentId').val())">Удалить
+                    </button>
+                </form>
+            </div>
+
+            <form id="formOrderAdd" class="form-inline">
+                <div class="form-group">
+                    <label for="customer">Заказчик</label>
+                    <input type="text" class="form-control" id="customer">
+                </div>
+                <div class="form-group">
+                    <label for="tableNumber">Столик №</label>
+                    <input type="number" class="form-control" id="tableNumber">
+                </div>
+                <div class="form-group">
+                    <label for="comment">Доп. информация</label>
+                    <input type="text" class="form-control" id="comment" size="80">
+                </div>
+                <button type="button" class="btn btn-default" onclick="RestAdd()">Новый заказ</button>
+            </form>
+            <form id="formItemAdd" class="form-inline">
+                <div class="form-group">
+                    <label for="order">Заказ №</label>
+                    <input type="number" class="form-control" id="order">
+                </div>
+                <div class="form-group">
+                    <label for="dish">Блюдо</label>
+                    <input type="text" class="form-control" id="dish">
+                </div>
+                <div class="form-group">
+                    <label for="comment">Количество</label>
+                    <input type="number" class="form-control" id="amount">
+                </div>
+                <button type="button" class="btn btn-default" onclick="AddItem($('#order').val())">Добавить блюдо
+                </button>
+            </form>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <strong>Результат запроса</strong>
+            </div>
+            <div class="panel-body" id="response"></div>
+        </div>
     </div>
-</div>
 </body>
 </html>
