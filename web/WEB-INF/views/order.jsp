@@ -38,6 +38,21 @@
         });
     };
 
+    var GetTable = function (id) {
+        $.ajax({
+            type: 'GET',
+            url: service + "/table/" + id,
+            dataType: 'json',
+            async: false,
+            success: function (result, textStatus) {
+                $('#response').html(orderAll(result));
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                $('#response').html(JSON.stringify(jqXHR));
+            }
+        });
+    };
+
     function strDate(d) {
         var str = "";
         if (d != null) str = new Date(d).toUTCString();
@@ -205,16 +220,21 @@
         $(formShow).show();
     }
 
+    function doFunc(func) {
+        $("form").hide();
+        func();
+    }
+
 </script>
 
 <ul class="nav nav-tabs">
         <li class="dropdown">
             <a href="#" data-toggle="dropdown" class="dropdown-toggle">Посмотреть Заказ(ы)<b class="caret"></b></a>
             <ul class="dropdown-menu">
-                <li><a href="#" onclick=getForm('formOrderAll')>Все</a></li>
+                <li><a href="#" onclick=doFunc(RestGetAll)>Все</a></li>
                 <li><a href="#" onclick="getForm('formOrderId')">По номеру</a></li>
                 <li class="divider"></li>
-                <li><a href="#">Для выбранного столика</a></li>
+                <li><a href="#" onclick="getForm('formTable')">Для выбранного столика</a></li>
                 <li><a href="#">Последний для выбранного столику</a></li>
             </ul>
         </li>
@@ -252,7 +272,15 @@
                     </button>
                 </form>
             </div>
-
+            <div>
+                <form id="formTable" class="form-inline">
+                    <label for="getTable">Столик с номером</label>
+                    <input type="number" class="form-control" id="getTable" value="">
+                    <button id="butTable" type="button" class="btn btn-default"
+                            onclick="GetTable($('#getTable').val())">Показать
+                    </button>
+                </form>
+            </div>
             <form id="formOrderAdd" class="form-inline">
                 <div class="form-group">
                     <label for="customer">Заказчик</label>
