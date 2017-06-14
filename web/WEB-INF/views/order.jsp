@@ -10,6 +10,11 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <style>
+    #response {
+        height:400px;
+        overflow-y:auto;
+        width:100%;
+    }
     form {
         border-radius: 5px;
         background-color: #f2f2f2;
@@ -208,13 +213,13 @@
         });
     };
     function getForm(idForm) {
-        var formShow="#"+idForm;
+        var formShow = "#" + idForm;
         $("form").hide();
         $(formShow).show();
         $("#butDel").hide();
     }
     function getFormDel(idForm) {
-        var formShow="#"+idForm;
+        var formShow = "#" + idForm;
         $("#butDel").show();
         $("form").hide();
         $(formShow).show();
@@ -227,7 +232,8 @@
 
 </script>
 
-<ul class="nav nav-tabs">
+<div class="container-fluid">
+    <ul class="nav nav-tabs">
         <li class="dropdown">
             <a href="#" data-toggle="dropdown" class="dropdown-toggle">Посмотреть Заказ(ы)<b class="caret"></b></a>
             <ul class="dropdown-menu">
@@ -247,7 +253,9 @@
         </li>
         <li class="active"><a href="#" onclick="getFormDel('formOrderId')">Удалить</a></li>
     </ul>
+</div>
 
+<div class="container-fluid">
     <div class="panel panel-default">
         <div class="panel-heading">
             Работа с заказами
@@ -318,8 +326,10 @@
             <div class="panel-heading">
                 <strong>Результат запроса</strong>
             </div>
-            <div class="panel-body" id="response"></div>
+            <div class="panel-body" id="response" ></div>
+
         </div>
     </div>
+</div>
 </body>
 </html>
