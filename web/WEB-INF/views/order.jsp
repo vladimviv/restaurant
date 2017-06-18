@@ -10,11 +10,16 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <style>
-    #response {
-        height:400px;
-        overflow-y:auto;
-        width:100%;
+    body {
+        padding-top: 45px;
     }
+
+    #response {
+        height: 400px;
+        overflow-y: auto;
+        width: 100%;
+    }
+
     form {
         border-radius: 5px;
         background-color: #f2f2f2;
@@ -25,9 +30,13 @@
     }
 
 </style>
-<body>
+
+<%--<body>--%>
+<body onload="addSelectDish()">
+
 <script type="text/javascript">
     var service = '/order';
+    var dishes = ["салат", "хлеб", "суп", "лангет", "борщ", "компот"];
     var RestGet = function (id) {
         $.ajax({
             type: 'GET',
@@ -112,7 +121,8 @@
 
     var AddItem = function (id) {
         var JSONObject = {
-            'name': $('#dish').val(),
+//            'name': $('#dish').val(),
+            'name': $("#selectDish option:selected").text()+" id="+$("#selectDish option:selected").val(),
             'amount': $('#amount').val(),
         };
         $.ajax({
@@ -230,31 +240,47 @@
         func();
     }
 
+    function addSelectDish() {
+//        Get dish/all
+
+//        dishes=result;
+
+//        add dish to select
+        var selectList = document.getElementById("selectDish");
+        var i;
+        for (i = 0; i < dishes.length; i++) {
+//            var dish = new Option(name, id);
+            var dish = new Option(dishes[i], i+11);
+            selectList.add(dish);
+        }
+    }
+
 </script>
 
-<div class="container-fluid">
-    <ul class="nav nav-tabs">
-        <li class="dropdown">
-            <a href="#" data-toggle="dropdown" class="dropdown-toggle">Посмотреть Заказ(ы)<b class="caret"></b></a>
-            <ul class="dropdown-menu">
-                <li><a href="#" onclick=doFunc(RestGetAll)>Все</a></li>
-                <li><a href="#" onclick="getForm('formOrderId')">По номеру</a></li>
-                <li class="divider"></li>
-                <li><a href="#" onclick="getForm('formTable')">Для выбранного столика</a></li>
-                <li><a href="#">Последний для выбранного столику</a></li>
-            </ul>
-        </li>
-        <li class="dropdown">
-            <a href="#" data-toggle="dropdown" class="dropdown-toggle">Добавить (Заказ/Блюдо)<b class="caret"></b></a>
-            <ul class="dropdown-menu">
-                <li><a href="#" onclick="getForm('formOrderAdd')">Заказ</a></li>
-                <li><a href="#" onclick="getForm('formItemAdd')">Блюдо</a></li>
-            </ul>
-        </li>
-        <li class="active"><a href="#" onclick="getFormDel('formOrderId')">Удалить</a></li>
-    </ul>
-</div>
-
+<nav class="navbar navbar-default  navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+        <ul class="nav navbar-nav">
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Посмотреть Заказ(ы)<b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#" onclick=doFunc(RestGetAll)>Все</a></li>
+                    <li><a href="#" onclick="getForm('formOrderId')">По номеру</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#" onclick="getForm('formTable')">Для выбранного столика</a></li>
+                    <li><a href="#">Последний для выбранного столику</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a href="#" data-toggle="dropdown" class="dropdown-toggle">Добавить (Заказ/Блюдо)<b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#" onclick="getForm('formOrderAdd')">Заказ</a></li>
+                    <li><a href="#" onclick="getForm('formItemAdd')">Блюдо</a></li>
+                </ul>
+            </li>
+            <li class="active"><a href="#" onclick="getFormDel('formOrderId')">Удалить</a></li>
+        </ul>
+    </div>
+</nav>
 <div class="container-fluid">
     <div class="panel panel-default">
         <div class="panel-heading">
@@ -310,8 +336,11 @@
                     <input type="number" class="form-control" id="order">
                 </div>
                 <div class="form-group">
-                    <label for="dish">Блюдо</label>
-                    <input type="text" class="form-control" id="dish">
+                    <%--<label for="dish">Блюдо</label>--%>
+                    <%--<input type="text" class="form-control" id="dish">--%>
+                    <label for="selectDish">Блюдо</label>
+                    <select class="form-control" id ="selectDish" >
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="comment">Количество</label>
@@ -326,7 +355,7 @@
             <div class="panel-heading">
                 <strong>Результат запроса</strong>
             </div>
-            <div class="panel-body" id="response" ></div>
+            <div class="panel-body" id="response"></div>
 
         </div>
     </div>
