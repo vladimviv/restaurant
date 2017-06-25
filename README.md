@@ -56,7 +56,7 @@
  
  <a name="service"></a>
  ### Service
- ![](https://image.prntscr.com/image/oRr1oRbkSvmhDexv6L0quA.png)
+ ![](https://image.prntscr.com/image/RpFMn-P0ROyPBSjUgVAE4w.png)
  
  <a name="сontroller"></a>
  ### Controller
